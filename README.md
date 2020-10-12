@@ -23,3 +23,16 @@ python manage.py makemigrations $myapp
 python manage.py sqlmigrate $myapp $0001
 python manage.py migrate
 ```
+
+#### Creating new instance
+```python
+from $myapp.models import $ModelName
+x = $ModelName(
+  a='123',
+  b=123
+)
+x.save()
+
+$ModelName.objects.all()
+<QuerySet [<$ModelName: $ModelName object (1)>]>
+```
