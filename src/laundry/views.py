@@ -17,4 +17,5 @@ class Reservations(View):
       return JsonResponse({'error': 'Something went wrong'}, status=400)
 
   def create(self, request, *args, **kwargs):
+    
     return JsonResponse({'message': 'Trying to create reservations'})
