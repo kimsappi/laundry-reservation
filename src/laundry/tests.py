@@ -17,15 +17,16 @@ class CreateSlotTestCase(TestCase):
     Machine.objects.create(name=MACHINE_NAME)
 
   def testCreation(self):
+    print(Machine.objects.get(name=MACHINE_NAME))
     req = urllib.request.Request(
       'http://localhost:8000/api/reservations',
-      data=json.dumps({
+      data=json.dumps([{
         'time': '2018-06-29 08:15:27.243860',
         'machine': MACHINE_NAME,
         'cancelCode': CANCEL_CODE,
         'owner': OWNER
-      }).encode('utf-8'),
-      method='CREATE'
+      }]).encode('utf-8'),
+      method='PUT'
     )
     with urllib.request.urlopen(req) as res:
-      print(res)
+      print(res.read())
