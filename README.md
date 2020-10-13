@@ -17,7 +17,7 @@ python manage.py startapp $myapp
 `python manage.py migrate`
 
 #### Include DB changes to main app
-First edit `$mysite/settings.py` `INSTALLED_APPS` to include a path to `$myapp.apps.$AppConfig`.
+First edit `$mysite/settings.py` `INSTALLED_APPS` to include a path to `$myapp.apps.$AppConfig`. (Adding `__str__` methods is really helpful, possibly required(?).)
 ```shell
 python manage.py makemigrations $myapp
 python manage.py sqlmigrate $myapp $0001
