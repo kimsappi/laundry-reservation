@@ -21,13 +21,14 @@ EXAMPLE_TEST_CASE = {
   'owner': OWNER
 }
 
-def getReservations():
-  res = c.get(RESERVATIONS_ENDPOINT)
+def readContent(res):
   return json.loads(res.content.decode('utf-8'))
 
+def getReservations():
+  return c.get(RESERVATIONS_ENDPOINT)
+
 def putReservation():
-  res = c.put(RESERVATIONS_ENDPOINT, json.dumps([EXAMPLE_TEST_CASE]).encode('utf-8'))
-  return json.loads(res.content.decode('utf-8'))
+  return c.put(RESERVATIONS_ENDPOINT, json.dumps([EXAMPLE_TEST_CASE]).encode('utf-8'))
 
 class CreateSlotTestCase(TestCase):
   def setUp(self):
@@ -35,9 +36,15 @@ class CreateSlotTestCase(TestCase):
 
   def testGet(self):
     res = getReservations()
+    self.assertEqual(res.status_code, 200)
+    body = readContent(res)
     db = list(Reservation.objects.values('time', 'machine', 'owner'))
-    self.assertDictEqual(res, {'reservations': db})
+    self.assertDictEqual(body, {'reservations': db})
   
   def testPut(self):
     res = putReservation()
-    self.assertDictEqual(res, {'success': [EXAMPLE_TEST_CASE['time']], 'failure': []})
+    self.assertEqual(res.status_code, 201)
+    body = readContent(res)
+    self.assertDictEqual(body, {'success': [EXAMPLE_TEST_CASE['time']], 'failure': []})
+    db = Reservation.objects.get(time=EXAMPLE_TEST_CASE['time'])
+    self.assertEqual(db.owner, EXAMPLE_TEST_CASE['owner'])
