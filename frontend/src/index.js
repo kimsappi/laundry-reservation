@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Reservations from './components/Reservations';
+import Slots from './components/Slots';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Reservations />
+    <Slots />
   </React.StrictMode>,
   document.getElementById('root')
 );

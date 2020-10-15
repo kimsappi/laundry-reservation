@@ -1,6 +1,8 @@
 {
   "dayCount": 4,
   "maxReservations": 6,
+  "firstSlot": 7,
+  "lastSlot": 21,
   "machines": [
     {
       "fullName": "Washing machine 1",
