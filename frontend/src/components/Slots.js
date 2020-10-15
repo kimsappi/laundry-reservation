@@ -1,27 +1,53 @@
 import React from 'react';
+
+import './Slots.css';
 import * as config from '../config.json';
 
 const Slot = ({time, state}) => {
-  const style = {
-    width: '10px',
-    height: '10px',
-    backgroundColor: 'blue'
-  }
   return (
-    <div style={style} />
+    <div className='slot' />
   )
 };
 
-const SlotColumn = () => {};
-
-const SlotDay = ({date}) => {
-  const slotColumns = [];
+const SlotColumn = ({machine}) => {
+  const slots = (() => {
+    const ret = [];
+    for (let i = 0; i < config.lastSlot - config.firstSlot + 1; ++i) {
+      const newSlot = <Slot />;
+      ret.push(newSlot);
+    };
+    return ret;
+  })();
 
   return (
-    <div>
-      {date.toLocaleString()}
+    <div className='flex column nowrap'>
+      <div>
+        {machine.shorthand}
+      </div>
+      <div className='flex column nowrap'>
+        {slots}
+      </div>
     </div>
+  );
+};
 
+const SlotDay = ({date}) => {
+  const slotColumns = config.machines.map((machine, index) => 
+    <SlotColumn
+      machine={machine}
+      key={index}
+    />
+  );
+
+  return (
+    <div className='flex column nowrap'>
+      <div>
+        {date.toLocaleString()}
+      </div>
+      <div className='flex row nowrap'>
+        {slotColumns}
+      </div>
+    </div>
   );
 };
 

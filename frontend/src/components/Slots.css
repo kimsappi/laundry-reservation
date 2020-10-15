@@ -1,0 +1,21 @@
+.slot {
+  width: 10px;
+  height: 10px;
+  background-color: blue;
+}
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row
+}
+
+.nowrap {
+  flex-wrap: nowrap;
+}
