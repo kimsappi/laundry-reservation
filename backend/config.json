@@ -1,0 +1,22 @@
+{
+  "dayCount": 4,
+  "maxReservations": 6,
+  "machines": [
+    {
+      "fullName": "Washing machine 1",
+      "shorthand": "W1"
+    },
+    {
+      "fullName": "Washing machine 2",
+      "shorthand": "W2"
+    },
+    {
+      "fullName": "Drier 1",
+      "shorthand": "D1"
+    },
+    {
+      "fullName": "Drier 2",
+      "shorthand": "D2"
+    }
+  ]
+}
