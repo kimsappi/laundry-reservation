@@ -4,6 +4,10 @@
   background-color: blue;
 }
 
+.slotDisabled {
+  background-color: darkslategray;
+}
+
 .flex {
   display: flex;
 }

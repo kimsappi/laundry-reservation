@@ -3,17 +3,21 @@ import React from 'react';
 import './Slots.css';
 import * as config from '../config.json';
 
-const Slot = ({time, state}) => {
+const Slot = ({time, state, currentDay}) => {
+  const classList = ['slot'];
+  if (currentDay)
+    classList.push('slotDisabled');
+
   return (
-    <div className='slot' />
+    <div className={classList.join(' ')} />
   )
 };
 
-const SlotColumn = ({machine}) => {
+const SlotColumn = ({machine, currentDay}) => {
   const slots = (() => {
     const ret = [];
     for (let i = 0; i < config.lastSlot - config.firstSlot + 1; ++i) {
-      const newSlot = <Slot />;
+      const newSlot = <Slot currentDay={currentDay} />;
       ret.push(newSlot);
     };
     return ret;
@@ -31,11 +35,12 @@ const SlotColumn = ({machine}) => {
   );
 };
 
-const SlotDay = ({date}) => {
+const SlotDay = ({date, currentDay}) => {
   const slotColumns = config.machines.map((machine, index) => 
     <SlotColumn
       machine={machine}
       key={index}
+      currentDay={currentDay}
     />
   );
 
