@@ -1,11 +1,16 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './Slots.css';
 import * as config from '../config.json';
+import * as reducers from '../reducers';
 
 const Slot = ({time, state, currentDay}) => {
   const classList = ['slot'];
-  if (currentDay)
+  const currentTime = useSelector(state => state.time);
+
+  const disabled = currentDay && currentTime.getHours > time;
+  if (disabled)
     classList.push('slotDisabled');
 
   return (
@@ -16,8 +21,13 @@ const Slot = ({time, state, currentDay}) => {
 const SlotColumn = ({machine, currentDay}) => {
   const slots = (() => {
     const ret = [];
-    for (let i = 0; i < config.lastSlot - config.firstSlot + 1; ++i) {
-      const newSlot = <Slot currentDay={currentDay} />;
+    for (let i = config.firstSlot; i < config.lastSlot + 1; ++i) {
+      const newSlot =
+        <Slot
+          currentDay={currentDay}
+          time={i}
+          key={i}
+        />;
       ret.push(newSlot);
     };
     return ret;
@@ -57,12 +67,16 @@ const SlotDay = ({date, currentDay}) => {
 };
 
 const Slots = () => {
+  const dispatch = useDispatch();
+
   const currentTime = new Date();
   // If no slots can be made for today, start display at tomorrow
   if (currentTime.getHours() > config.lastSlot) {
     currentTime.setDate(currentTime.getDate() + 1);
     currentTime.setHours(0,0,0,0);
   }
+
+  dispatch(reducers.setCurrentTime(currentTime));
   
   // Construct array of dates as set in config.dayCount
   const dates = (() => {
