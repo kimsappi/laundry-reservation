@@ -1,11 +1,15 @@
 .slot {
   width: 10px;
   height: 10px;
-  background-color: blue;
+  background-color: lightskyblue;
 }
 
 .slotDisabled {
-  background-color: darkslategray;
+  background-color: #888;
+}
+
+.slotReserving {
+  background-color: royalblue;
 }
 
 .flex {

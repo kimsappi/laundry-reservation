@@ -6,10 +6,13 @@ import thunk from 'redux-thunk';
 
 import './index.css';
 import Slots from './components/Slots';
-import * as reducers from './reducers';
+import Inputs from './components/Inputs';
+import {timeReducer} from './reducers/time';
+import {inputsReducer} from './reducers/inputs';
 
 const reducer = combineReducers({
-  time: reducers.timeReducer
+  time: timeReducer,
+  inputs: inputsReducer
 });
 
 const store = createStore(
@@ -23,6 +26,7 @@ ReactDOM.render(
   <Redux.Provider store={store}>
     <React.StrictMode>
       <Slots />
+      <Inputs />
     </React.StrictMode>
   </Redux.Provider>,
   document.getElementById('root')

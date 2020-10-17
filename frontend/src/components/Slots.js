@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './Slots.css';
 import * as config from '../config.json';
-import * as reducers from '../reducers';
+import * as reducers from '../reducers/time';
 
-const Slot = ({time, state, currentDay}) => {
+const Slot = ({time, currentDay}) => {
   const classList = ['slot'];
   const currentTime = useSelector(state => state.time);
 
-  const disabled = currentDay && currentTime.getHours > time;
+  const disabled = currentDay && currentTime.getHours() > time;
   if (disabled)
     classList.push('slotDisabled');
 
@@ -99,7 +99,7 @@ const Slots = () => {
   );
 
   return (
-    <div>
+    <div className='flex row nowrap'>
       {slotDays}
     </div>
   );
