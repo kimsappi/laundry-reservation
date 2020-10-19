@@ -8,11 +8,9 @@ import './index.css';
 import Slots from './components/Slots';
 import Inputs from './components/Inputs';
 import {timeReducer} from './reducers/time';
-import {inputsReducer} from './reducers/inputs';
 
 const reducer = combineReducers({
   time: timeReducer,
-  inputs: inputsReducer
 });
 
 const store = createStore(

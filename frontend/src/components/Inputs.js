@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import * as inputsReducer from '../reducers/inputs';
 import * as config from '../config.json';
 
 const StairInput = () => {
-  const dispatch = useDispatch();
   const stairs = Object.keys(config.apartments);
   const nullValue = 'PlaceholderThatShouldNotExist'
   const [value, setValue] = useState(nullValue);
 
   useEffect(() => {
-    const oldStair = dispatch(inputsReducer.getStair());
+    const oldStair = localStorage.getItem('stair');
     if (oldStair)
-      setValue(oldStair.data.stair);
-  }, [dispatch]);
+      setValue(oldStair);
+  }, []);
 
   const stairOptions = stairs.map((stairName, index) =>
     <option key={index}>{stairName}</option>
   );
 
   const handleChange = event => {
-    dispatch(
-      inputsReducer.setStair(
-        event.target.options[event.target.selectedIndex].text
-      )
-    );
+    const newStair = event.target.options[event.target.selectedIndex].text;
     setValue(event.target.options[event.target.selectedIndex].text);
-    // Is this unholy?
+    localStorage.setItem('stair', newStair);
   };
 
   return (
@@ -39,10 +32,6 @@ const StairInput = () => {
 };
 
 const Inputs = () => {
-  const dispatch = useDispatch();
-
-  const inputs = useSelector(state => state.inputs);
-
   return (
     <form>
       <StairInput/>
