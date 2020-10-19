@@ -3,22 +3,40 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './Slots.css';
 import * as config from '../config.json';
-import * as reducers from '../reducers/time';
+import * as timeReducer from '../reducers/time';
+import * as slotsReducer from '../reducers/slots';
 
-const Slot = ({time, currentDay}) => {
+const Slot = ({time, currentDay, date, machine}) => {
   const classList = ['slot'];
   const currentTime = useSelector(state => state.time);
+  const slotStatuses = useSelector(state => state.slots);
+  const dispatch = useDispatch();
+
+  const status = slotStatuses.filter(data => {
+    return (
+      data.machine === machine &&
+      data.date.getDate() === date.getDate() &&
+      data.time === time
+    );
+  });
+
+  if (status.length)
+    console.warn(status);
 
   const disabled = currentDay && currentTime.getHours() > time;
   if (disabled)
     classList.push('slotDisabled');
+  
+  const handleClick = event => {
+    dispatch(slotsReducer.setStatusOnClick(date, time, machine, 'placeholderOwner'));
+  };
 
   return (
-    <div className={classList.join(' ')} />
-  )
+    <div className={classList.join(' ')} onClick={handleClick} />
+  );
 };
 
-const SlotColumn = ({machine, currentDay}) => {
+const SlotColumn = ({machine, currentDay, date}) => {
   const slots = (() => {
     const ret = [];
     for (let i = config.firstSlot; i < config.lastSlot + 1; ++i) {
@@ -27,6 +45,8 @@ const SlotColumn = ({machine, currentDay}) => {
           currentDay={currentDay}
           time={i}
           key={i}
+          date={date}
+          machine={machine.fullName}
         />;
       ret.push(newSlot);
     };
@@ -51,6 +71,7 @@ const SlotDay = ({date, currentDay}) => {
       machine={machine}
       key={index}
       currentDay={currentDay}
+      date={date}
     />
   );
 
@@ -76,7 +97,7 @@ const Slots = () => {
     currentTime.setHours(0,0,0,0);
   }
 
-  dispatch(reducers.setCurrentTime(currentTime));
+  dispatch(timeReducer.setCurrentTime(currentTime));
   
   // Construct array of dates as set in config.dayCount
   const dates = (() => {
@@ -84,6 +105,7 @@ const Slots = () => {
     for (let i = 0; i < config.dayCount; ++i) {
       const newDate = new Date();
       newDate.setDate(currentTime.getDate() + i);
+      newDate.setHours(0,0,0,0);
       ret.push(newDate);
     };
     return ret;
