@@ -76,8 +76,12 @@ const Inputs = () => {
     }
   }, []);
 
+  const submitHandler = event => {
+    event.preventDefault();
+  }
+
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <StairInput
         stair={stair} setStair={setStair}
         setApartment={setApartment}
@@ -86,6 +90,7 @@ const Inputs = () => {
         apartment={apartment} setApartment={setApartment}
         stair={stair}
       />
+      <input type='submit' name='Submit' value='Submit' />
     </form>
   );
 };
