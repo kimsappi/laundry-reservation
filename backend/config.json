@@ -3,6 +3,7 @@
   "maxReservations": 6,
   "firstSlot": 7,
   "lastSlot": 21,
+  "ownerDelimiter": " ",
   "machines": [
     {
       "fullName": "Washing machine 1",

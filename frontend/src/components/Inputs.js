@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import * as config from '../config.json';
+import * as ownerReducer from '../reducers/owner';
 
 const nullValue = 'PlaceholderThatShouldNotExist';
 
 const StairInput = ({ stair, setStair, setApartment }) => {
   const stairs = Object.keys(config.apartments);
-
-  useEffect(() => {
-    const oldStair = localStorage.getItem('stair');
-    if (oldStair)
-      setStair(oldStair);
-  }, []);
+  const dispatch = useDispatch();
 
   const stairOptions = stairs.map((stairName, index) =>
     <option key={index}>{stairName}</option>
@@ -22,6 +19,7 @@ const StairInput = ({ stair, setStair, setApartment }) => {
     setStair(event.target.options[event.target.selectedIndex].text);
     localStorage.setItem('stair', newStair);
     setApartment(nullValue);
+    dispatch(ownerReducer.setOwner(null));
   };
 
   return (
@@ -33,6 +31,7 @@ const StairInput = ({ stair, setStair, setApartment }) => {
 };
 
 const ApartmentInput = ({ apartment, setApartment, stair }) => {
+  const dispatch = useDispatch();
   const apartments = Array.isArray(config.apartments[stair]) ?
     config.apartments[stair] : [];
 
@@ -48,8 +47,9 @@ const ApartmentInput = ({ apartment, setApartment, stair }) => {
 
   const handleChange = event => {
     const newApartment = event.target.options[event.target.selectedIndex].text;
-    setApartment(event.target.options[event.target.selectedIndex].text);
+    setApartment(newApartment);
     localStorage.setItem('apartment', newApartment);
+    dispatch(ownerReducer.setOwner(stair + config.ownerDelimiter + newApartment));
   };
 
   return (
@@ -61,13 +61,19 @@ const ApartmentInput = ({ apartment, setApartment, stair }) => {
 };
 
 const Inputs = () => {
+  const dispatch = useDispatch();
   const [stair, setStair] = useState(nullValue);
   const [apartment, setApartment] = useState(nullValue);
 
   useEffect(() => {
+    const oldStair = localStorage.getItem('stair');
     const oldApartment = localStorage.getItem('apartment');
-    if (oldApartment)
+    if (oldStair)
+      setStair(oldStair);
+    if (oldApartment && oldStair) {
       setApartment(oldApartment)
+      dispatch(ownerReducer.setOwner(oldStair + config.ownerDelimiter + oldApartment));
+    }
   }, []);
 
   return (

@@ -10,6 +10,7 @@ const Slot = ({time, currentDay, date, machine}) => {
   const classList = ['slot'];
   const currentTime = useSelector(state => state.time);
   const slotStatuses = useSelector(state => state.slots);
+  const me = useSelector(state => state.owner);
   const dispatch = useDispatch();
 
   const status = slotStatuses.filter(data => {

@@ -9,10 +9,12 @@ import Slots from './components/Slots';
 import Inputs from './components/Inputs';
 import { timeReducer } from './reducers/time';
 import { slotsReducer } from './reducers/slots';
+import { ownerReducer } from './reducers/owner';
 
 const reducer = combineReducers({
   time: timeReducer,
-  slots: slotsReducer
+  slots: slotsReducer,
+  owner: ownerReducer
 });
 
 const store = createStore(
