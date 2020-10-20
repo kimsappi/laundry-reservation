@@ -20,15 +20,21 @@ const Slot = ({time, currentDay, date, machine}) => {
     );
   });
 
-  if (status.length)
-    console.warn(status);
+  if (status.length) {
+    const statusText = status[0].status;
+    classList.push('slot' + statusText.replace(/^./, statusText[0].toUpperCase()));
+  }
 
   const disabled = currentDay && currentTime.getHours() > time;
   if (disabled)
     classList.push('slotDisabled');
   
   const handleClick = event => {
-    dispatch(slotsReducer.setStatusOnClick(date, time, machine, 'placeholderOwner'));
+    if (disabled)
+      return;
+    const oldStatus = status.length ?
+      status[0].status : null;
+    dispatch(slotsReducer.setStatusOnClick(date, time, machine, 'placeholderOwner', oldStatus));
   };
 
   return (

@@ -3,14 +3,16 @@
   height: 20px;
   background-color: lightskyblue;
   margin-bottom: 3px;
-}
-
-.slotDisabled {
-  background-color: #888;
+  transition: 1s;
 }
 
 .slotReserving {
   background-color: royalblue;
+}
+
+/* Must be the last slot declaration to override all slots */
+.slotDisabled {
+  background-color: #888;
 }
 
 .flex {
