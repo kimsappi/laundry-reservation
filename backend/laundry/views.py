@@ -18,18 +18,21 @@ class Reservations(View):
   def post(self, request, *args, **kwargs):
     try:
       newResData = json.loads(request.body)
+      cancelCode = newResData['cancelCode']
+      owner = newResData['owner']
+
       newResObjs = [Reservation(
         time = r['time'],
         machine = Machine.objects.get(name=r['machine']),
-        cancelCode = r['cancelCode'],
-        owner = r['owner']
+        cancelCode = cancelCode,
+        owner = owner
       ) for r in newResData['new']]
 
       cancelResObjs = [Reservation(
         time = r['time'],
         machine = Machine.objects.get(name=r['machine']),
-        cancelCode = r['cancelCode'],
-        owner = r['owner']
+        cancelCode = cancelCode,
+        owner = owner
       ) for r in newResData['cancel']]
 
       success = []
@@ -42,5 +45,5 @@ class Reservations(View):
           failure.append(r.time)
       return JsonResponse({'success': success, 'failure': failure}, status=201)
     except Exception as e:
-      logging.error(e)
+      logging.error(repr(e))
       return JsonResponse({'error': 'Something went wrong'}, status=400)

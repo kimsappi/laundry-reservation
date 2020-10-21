@@ -65,7 +65,10 @@ const Inputs = () => {
   const dispatch = useDispatch();
   const [stair, setStair] = useState(nullValue);
   const [apartment, setApartment] = useState(nullValue);
+  const [cancelCode, setCancelCode] = useState('');
+
   const slotStatuses = useSelector(state => state.slots);
+  const me = useSelector(state => state.owner);
 
   useEffect(() => {
     const oldStair = localStorage.getItem('stair');
@@ -78,6 +81,10 @@ const Inputs = () => {
     }
   }, []);
 
+  const textInputHandler = (event, setFunction) => {
+    setFunction(event.target.value);
+  };
+
   const submitHandler = event => {
     event.preventDefault();
     const newReservations = slotStatuses.filter(slot => slot.status === 'reserving');
@@ -89,7 +96,9 @@ const Inputs = () => {
     try {
       axios.post(config.apiRootURL + 'reservations', {
         new: newReservations,
-        cancel: cancelledReservations
+        cancel: cancelledReservations,
+        cancelCode,
+        owner: me
       });
     } catch(err) {
       console.error(err);
@@ -106,6 +115,10 @@ const Inputs = () => {
         apartment={apartment} setApartment={setApartment}
         stair={stair}
       />
+      <div>
+        <label htmlFor='cancelCode'>Cancellation code: (=> type=password?)</label>
+        <input type='text' name='cancelCode' value={cancelCode} onChange={event => textInputHandler(event, setCancelCode)} />
+      </div>
       <input type='submit' name='Submit' value='Submit' />
     </form>
   );
