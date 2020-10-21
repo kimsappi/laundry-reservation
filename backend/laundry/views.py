@@ -15,7 +15,7 @@ class Reservations(View):
       logging.error(e)
       return JsonResponse({'error': 'Something went wrong'}, status=400)
 
-  def put(self, request, *args, **kwargs):
+  def post(self, request, *args, **kwargs):
     try:
       newResData = json.loads(request.body)
       newResObjs = [Reservation(
