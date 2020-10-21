@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 import * as config from '../config.json';
 import * as ownerReducer from '../reducers/owner';
@@ -64,6 +65,7 @@ const Inputs = () => {
   const dispatch = useDispatch();
   const [stair, setStair] = useState(nullValue);
   const [apartment, setApartment] = useState(nullValue);
+  const slotStatuses = useSelector(state => state.slots);
 
   useEffect(() => {
     const oldStair = localStorage.getItem('stair');
@@ -78,6 +80,20 @@ const Inputs = () => {
 
   const submitHandler = event => {
     event.preventDefault();
+    const newReservations = slotStatuses.filter(slot => slot.status === 'reserving');
+    const cancelledReservations = slotStatuses.filter(slot => slot.status === 'dereserving');
+    if (!newReservations.length) {
+      alert('No slots selected.'); // TODO move to Bootstrap alert or something
+      return;
+    }
+    try {
+      axios.post(config.apiRootURL + 'reservations', {
+        new: newReservations,
+        cancel: cancelledReservations
+      });
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   return (
