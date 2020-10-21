@@ -23,7 +23,14 @@ class Reservations(View):
         machine = Machine.objects.get(name=r['machine']),
         cancelCode = r['cancelCode'],
         owner = r['owner']
-      ) for r in newResData]
+      ) for r in newResData['new']]
+
+      cancelResObjs = [Reservation(
+        time = r['time'],
+        machine = Machine.objects.get(name=r['machine']),
+        cancelCode = r['cancelCode'],
+        owner = r['owner']
+      ) for r in newResData['cancel']]
 
       success = []
       failure = []
