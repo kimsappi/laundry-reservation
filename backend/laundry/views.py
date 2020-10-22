@@ -9,7 +9,7 @@ from .models import Reservation, Machine
 class Reservations(View):
   def get(self, request, *args, **kwargs):
     try:
-      reservations = Reservation.objects.values('time', 'machine', 'owner')
+      reservations = Reservation.objects.values('date', 'time', 'machine', 'owner')
       return JsonResponse({'reservations': list(reservations)})
     except Exception as e:
       logging.error(e)
@@ -22,6 +22,7 @@ class Reservations(View):
       owner = newResData['owner']
 
       newResObjs = [Reservation(
+        date = r['date'][:10],
         time = r['time'],
         machine = Machine.objects.get(name=r['machine']),
         cancelCode = cancelCode,
@@ -29,6 +30,7 @@ class Reservations(View):
       ) for r in newResData['new']]
 
       cancelResObjs = [Reservation(
+        date = r['date'][:10],
         time = r['time'],
         machine = Machine.objects.get(name=r['machine']),
         cancelCode = cancelCode,
@@ -41,7 +43,8 @@ class Reservations(View):
         try:
           r.save()
           success.append(r.time)
-        except:
+        except Exception as e:
+          logging.warning(e)
           failure.append(r.time)
       return JsonResponse({'success': success, 'failure': failure}, status=200)
     except Exception as e:

@@ -23,7 +23,8 @@ class Migration(migrations.Migration):
             name='Reservation',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('time', models.DateTimeField()),
+                ('date', models.DateField()),
+                ('time', models.SmallIntegerField()),
                 ('cancelCode', models.CharField(max_length=64)),
                 ('owner', models.CharField(max_length=64)),
                 ('machine', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laundry.machine')),

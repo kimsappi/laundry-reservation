@@ -9,7 +9,8 @@ class Machine(models.Model):
     return f'{self.name}'
 
 class Reservation(models.Model):
-  time = models.DateTimeField()
+  date = models.DateField()
+  time = models.SmallIntegerField()
   machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
   cancelCode = models.CharField(max_length=64)
   owner = models.CharField(max_length=64)

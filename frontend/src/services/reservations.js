@@ -8,5 +8,5 @@ export const submitReservations = async (newReservations, cancelledReservations,
     cancelCode,
     owner: me
   });
-  console.log(res);
+  console.log(res.data);
 };
