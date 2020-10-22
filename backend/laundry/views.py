@@ -43,7 +43,7 @@ class Reservations(View):
           success.append(r.time)
         except:
           failure.append(r.time)
-      return JsonResponse({'success': success, 'failure': failure}, status=201)
+      return JsonResponse({'success': success, 'failure': failure}, status=200)
     except Exception as e:
       logging.error(repr(e))
       return JsonResponse({'error': 'Something went wrong'}, status=400)

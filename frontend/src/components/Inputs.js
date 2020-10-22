@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 
 import * as config from '../config.json';
 import * as ownerReducer from '../reducers/owner';
+import * as reservationsService from '../services/reservations';
 
 const nullValue = 'PlaceholderThatShouldNotExist';
 
@@ -89,21 +89,16 @@ const Inputs = () => {
     event.preventDefault();
     const newReservations = slotStatuses.filter(slot => slot.status === 'reserving');
     const cancelledReservations = slotStatuses.filter(slot => slot.status === 'dereserving');
-    if (!newReservations.length) {
+    if (!(newReservations.length + cancelledReservations.length)) {
       alert('No slots selected.'); // TODO move to Bootstrap alert or something
       return;
     }
     try {
-      axios.post(config.apiRootURL + 'reservations', {
-        new: newReservations,
-        cancel: cancelledReservations,
-        cancelCode,
-        owner: me
-      });
+      reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me);
     } catch(err) {
-      console.error(err);
+      console.log(err);
     }
-  }
+  };
 
   return (
     <form onSubmit={submitHandler}>
