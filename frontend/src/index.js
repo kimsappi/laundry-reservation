@@ -11,11 +11,13 @@ import Inputs from './components/Inputs';
 import { timeReducer } from './reducers/time';
 import { slotsReducer } from './reducers/slots';
 import { ownerReducer } from './reducers/owner';
+import { reservationsReducer } from './reducers/reservations';
 
 const reducer = combineReducers({
   time: timeReducer,
   slots: slotsReducer,
-  owner: ownerReducer
+  owner: ownerReducer,
+  reservations: reservationsReducer
 });
 
 const store = createStore(

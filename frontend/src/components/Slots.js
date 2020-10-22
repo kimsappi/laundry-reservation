@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './Slots.css';
 import * as config from '../config.json';
 import * as timeReducer from '../reducers/time';
 import * as slotsReducer from '../reducers/slots';
+import * as reservationsReducer from '../reducers/reservations';
+import * as reservationService from '../services/reservations';
 
 const Slot = ({time, currentDay, date, machine}) => {
   const classList = ['slot'];
@@ -96,6 +98,17 @@ const SlotDay = ({date, currentDay}) => {
 
 const Slots = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const oldReservations = await reservationService.getReservations();
+      if (oldReservations === null) {
+        alert('There was an error connecting to the server.'); // TODO make nicer
+        return;
+      }
+      dispatch(reservationsReducer.setOldReservations(oldReservations));
+    })();
+  }, []);
 
   const currentTime = new Date();
   // If no slots can be made for today, start display at tomorrow
