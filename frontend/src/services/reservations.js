@@ -14,8 +14,7 @@ export const submitReservations = async (newReservations, cancelledReservations,
 export const getReservations = async () => {
   try {
     const res = await axios.get(config.apiRootURL + 'reservations');
-    console.log(res.data);
-    return res.data;
+    return res.data.reservations;
   } catch(err) {
     console.error(err);
     return null;

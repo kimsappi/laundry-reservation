@@ -11,14 +11,17 @@ import * as reservationService from '../services/reservations';
 const Slot = ({time, currentDay, date, machine}) => {
   const classList = ['slot'];
   const currentTime = useSelector(state => state.time);
-  const slotStatuses = useSelector(state => state.slots);
+  const slots = useSelector(state => state.slots);
+  const oldReservations = useSelector(state => state.reservations);
+  console.log(oldReservations)
   const me = useSelector(state => state.owner);
   const dispatch = useDispatch();
+  const slotStatuses = [...slots, ...oldReservations];
 
   const status = slotStatuses.filter(data => {
     return (
       data.machine === machine &&
-      data.date.getDate() === date.getDate() &&
+      (data.date.getDate() === date.getDate() || data.date === `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`) &&
       data.time === time
     );
   });
@@ -106,7 +109,11 @@ const Slots = () => {
         alert('There was an error connecting to the server.'); // TODO make nicer
         return;
       }
-      dispatch(reservationsReducer.setOldReservations(oldReservations));
+      const reservationsWithStatus = oldReservations.map(reservation => {
+        return {...reservation, status: 'reserved'};
+      });
+      console.log(reservationsWithStatus)
+      dispatch(reservationsReducer.setOldReservations(reservationsWithStatus));
     })();
   }, []);
 

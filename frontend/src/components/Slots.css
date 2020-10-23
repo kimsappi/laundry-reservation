@@ -10,6 +10,10 @@
   background-color: royalblue;
 }
 
+.slotReserved {
+  background-color: darkred;
+}
+
 /* Must be the last slot declaration to override all slots */
 .slotDisabled {
   background-color: #888;

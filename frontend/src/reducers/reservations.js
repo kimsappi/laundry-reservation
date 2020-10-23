@@ -1,10 +1,9 @@
 export const setOldReservations = oldReservations => {
-  return dispatch => {
-    const action = {
+  return dispatch => 
+    dispatch({
       type: 'SET_OLD_RESERVATIONS',
       data: oldReservations
-    };
-  };
+    });
 };
 
 export const reservationsReducer = (state = [], action) => {
