@@ -13,15 +13,18 @@ const Slot = ({time, currentDay, date, machine}) => {
   const currentTime = useSelector(state => state.time);
   const slots = useSelector(state => state.slots);
   const oldReservations = useSelector(state => state.reservations);
-  console.log(oldReservations)
   const me = useSelector(state => state.owner);
   const dispatch = useDispatch();
   const slotStatuses = [...slots, ...oldReservations];
 
   const status = slotStatuses.filter(data => {
+    const dateMatch = typeof data.date === 'string' ?
+      data.date === date.toISOString().split('T')[0] :
+      data.date.getDate() === date.getDate();
+
     return (
       data.machine === machine &&
-      (data.date.getDate() === date.getDate() || data.date === `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`) &&
+      dateMatch &&
       data.time === time
     );
   });

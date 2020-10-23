@@ -23,5 +23,15 @@ class Reservation(models.Model):
   owner: {self.owner}\
 '''
 
+  def getReservations():
+    reservations = Reservation \
+      .objects \
+      .values('date', 'time', 'machine__name', 'owner') \
+      .filter(machine__isnull=False)
+
+    for reservation in reservations:
+      reservation['machine'] = reservation.pop('machine__name')
+    return reservations
+
   class Meta:
     unique_together = (('time', 'machine'),)

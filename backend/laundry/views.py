@@ -9,7 +9,7 @@ from .models import Reservation, Machine
 class Reservations(View):
   def get(self, request, *args, **kwargs):
     try:
-      reservations = Reservation.objects.values('date', 'time', 'machine', 'owner')
+      reservations = Reservation.getReservations()
       return JsonResponse({'reservations': list(reservations)})
     except Exception as e:
       logging.error(e)
