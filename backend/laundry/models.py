@@ -34,4 +34,4 @@ class Reservation(models.Model):
     return reservations
 
   class Meta:
-    unique_together = (('time', 'machine'),)
+    unique_together = (('date', 'time', 'machine'),)

@@ -104,6 +104,7 @@ const SlotDay = ({date, currentDay}) => {
 
 const Slots = () => {
   const dispatch = useDispatch();
+  const me = useSelector(state => state.owner);
 
   useEffect(() => {
     (async () => {
@@ -113,7 +114,8 @@ const Slots = () => {
         return;
       }
       const reservationsWithStatus = oldReservations.map(reservation => {
-        return {...reservation, status: 'reserved'};
+        const status = reservation.owner === me ? 'myReserved' : 'reserved';
+        return {...reservation, status};
       });
       console.log(reservationsWithStatus)
       dispatch(reservationsReducer.setOldReservations(reservationsWithStatus));
