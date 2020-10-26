@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('machine', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laundry.machine')),
             ],
             options={
-                'unique_together': {('time', 'machine')},
+                'unique_together': {('date', 'time', 'machine')},
             },
         ),
     ]
