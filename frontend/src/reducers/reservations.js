@@ -4,11 +4,11 @@ const setReservationsStatusIfUndefined = (reservations, status) =>
   );
 ;
 
-export const setOldReservations = oldReservations => {
+export const setOldReservations = data => {
   return dispatch => 
     dispatch({
       type: 'SET_OLD_RESERVATIONS',
-      data: setReservationsStatusIfUndefined(oldReservations, 'reserved')
+      data: setReservationsStatusIfUndefined(data.reservations, 'reserved')
     });
 };
 

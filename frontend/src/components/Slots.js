@@ -111,8 +111,8 @@ const Slots = () => {
 
   useEffect(() => {
     (async () => {
-      const oldReservations = await reservationService.getReservations();
-      if (oldReservations === null) {
+      const data = await reservationService.getReservations();
+      if (data === null) {
         alert('There was an error connecting to the server.'); // TODO make nicer
         return;
       }
@@ -120,7 +120,7 @@ const Slots = () => {
       //   const status = /*reservation.owner === me ? 'myReserved' :*/ 'reserved';
       //   return {...reservation, status};
       // });
-      dispatch(reservationsReducer.setOldReservations(oldReservations));
+      dispatch(reservationsReducer.setOldReservations(data));
     })();
   }, []);
 

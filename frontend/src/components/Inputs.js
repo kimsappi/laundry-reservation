@@ -95,9 +95,8 @@ const Inputs = () => {
       return;
     }
     try {
-      const res = await reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me);
-      console.warn(res);
-      dispatch(setOldReservations(res));
+      const data = await reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me);
+      dispatch(setOldReservations(data));
     } catch(err) {
       console.error(err);
     }

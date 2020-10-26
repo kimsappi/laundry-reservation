@@ -9,13 +9,13 @@ export const submitReservations = async (newReservations, cancelledReservations,
     owner: me
   });
   console.log(res.data);
-  return res.data.reservations;
+  return res.data;
 };
 
 export const getReservations = async () => {
   try {
     const res = await axios.get(config.apiRootURL + 'reservations');
-    return res.data.reservations;
+    return res.data;
   } catch(err) {
     console.error(err);
     return null;

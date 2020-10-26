@@ -8,6 +8,7 @@ class Config():
       with open(os.path.dirname(os.path.realpath(__file__)) + '/config.json') as f:
         config = json.loads(f.read())
         self.timezone = config['timezone']
+        self.lastSlot = config['lastSlot']
 
     except Exception as e:
       print(e)
