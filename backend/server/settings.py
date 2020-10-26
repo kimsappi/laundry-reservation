@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from environ import Env
+import sys
+
+sys.path.append('..')
+from config import Config
+
+config = Config()
 
 # Allow CORS, can be removed for final build (see also
 # INSTALLED_APPS and MIDDLEWARE)
@@ -123,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = config.timezone
 
 USE_I18N = True
 

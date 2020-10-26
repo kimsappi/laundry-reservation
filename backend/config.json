@@ -5,6 +5,7 @@
   "lastSlot": 21,
   "ownerDelimiter": " ",
   "apiRootURL": "http://localhost:8000/api/",
+  "timezone": "Europe/Helsinki",
   "machines": [
     {
       "fullName": "Washing machine 1",
