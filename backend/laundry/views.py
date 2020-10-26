@@ -1,16 +1,21 @@
 import logging
 import json
+from typing import List
 
 from django.http import JsonResponse
 from django.views.generic import View
 
 from .models import Reservation, Machine
 
+def getAllReservationsAsList() -> List:
+  reservations = Reservation.getReservations()
+  return list(reservations)
+
 class Reservations(View):
   def get(self, request, *args, **kwargs):
     try:
-      reservations = Reservation.getReservations()
-      return JsonResponse({'reservations': list(reservations)})
+      reservations = getAllReservationsAsList()
+      return JsonResponse({'reservations': reservations}, status=200)
     except Exception as e:
       logging.error(e)
       return JsonResponse({'error': 'Something went wrong'}, status=400)
@@ -46,7 +51,9 @@ class Reservations(View):
         except Exception as e:
           logging.warning(e)
           failure.append(r.time)
-      return JsonResponse({'success': success, 'failure': failure}, status=200)
+
+      reservations = getAllReservationsAsList()    
+      return JsonResponse({'reservations': reservations}, status=200)
     except Exception as e:
       logging.error(repr(e))
       return JsonResponse({'error': 'Something went wrong'}, status=400)

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import * as config from '../config.json';
 import * as ownerReducer from '../reducers/owner';
+import { setOldReservations } from '../reducers/reservations';
 import * as reservationsService from '../services/reservations';
 
 const nullValue = 'PlaceholderThatShouldNotExist';
@@ -85,7 +86,7 @@ const Inputs = () => {
     setFunction(event.target.value);
   };
 
-  const submitHandler = event => {
+  const submitHandler = async event => {
     event.preventDefault();
     const newReservations = slotStatuses.filter(slot => slot.status === 'reserving');
     const cancelledReservations = slotStatuses.filter(slot => slot.status === 'dereserving');
@@ -94,9 +95,11 @@ const Inputs = () => {
       return;
     }
     try {
-      reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me);
+      const res = await reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me);
+      console.warn(res);
+      dispatch(setOldReservations(res));
     } catch(err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

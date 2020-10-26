@@ -30,8 +30,7 @@ const Slot = ({time, currentDay, date, machine}) => {
   });
 
   if (status.length) {
-    console.error(status[0].owner);
-    console.warn(me)
+    console.log(status);
     const initialStatus = status[0].status;
     const statusText = initialStatus === 'reserved' && status[0].owner === me ?
       'myReserved' : initialStatus;
@@ -117,14 +116,11 @@ const Slots = () => {
         alert('There was an error connecting to the server.'); // TODO make nicer
         return;
       }
-      const reservationsWithStatus = oldReservations.map(reservation => {
-        // console.log(reservation);
-        // console.error('state.owner:', me);
-        const status = /*reservation.owner === me ? 'myReserved' :*/ 'reserved';
-        return {...reservation, status};
-      });
-      console.log(reservationsWithStatus)
-      dispatch(reservationsReducer.setOldReservations(reservationsWithStatus));
+      // const reservationsWithStatus = oldReservations.map(reservation => {
+      //   const status = /*reservation.owner === me ? 'myReserved' :*/ 'reserved';
+      //   return {...reservation, status};
+      // });
+      dispatch(reservationsReducer.setOldReservations(oldReservations));
     })();
   }, []);
 

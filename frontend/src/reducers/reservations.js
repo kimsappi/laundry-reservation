@@ -1,8 +1,14 @@
+const setReservationsStatusIfUndefined = (reservations, status) => 
+  reservations.map(reservation => typeof reservation.status === 'undefined' ?
+    {...reservation, status} : reservation
+  );
+;
+
 export const setOldReservations = oldReservations => {
   return dispatch => 
     dispatch({
       type: 'SET_OLD_RESERVATIONS',
-      data: oldReservations
+      data: setReservationsStatusIfUndefined(oldReservations, 'reserved')
     });
 };
 

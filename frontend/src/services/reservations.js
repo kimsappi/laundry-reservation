@@ -9,6 +9,7 @@ export const submitReservations = async (newReservations, cancelledReservations,
     owner: me
   });
   console.log(res.data);
+  return res.data.reservations;
 };
 
 export const getReservations = async () => {
