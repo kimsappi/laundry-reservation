@@ -14,8 +14,8 @@
   background-color: darkred;
 }
 
-.slotReserved {
-  background-color: plum;
+.slotMyReserved {
+  background-color: green;
 }
 
 /* Must be the last slot declaration to override all slots */

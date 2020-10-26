@@ -30,7 +30,11 @@ const Slot = ({time, currentDay, date, machine}) => {
   });
 
   if (status.length) {
-    const statusText = status[0].status;
+    console.error(status[0].owner);
+    console.warn(me)
+    const initialStatus = status[0].status;
+    const statusText = initialStatus === 'reserved' && status[0].owner === me ?
+      'myReserved' : initialStatus;
     classList.push('slot' + statusText.replace(/^./, statusText[0].toUpperCase()));
   }
 
@@ -104,7 +108,7 @@ const SlotDay = ({date, currentDay}) => {
 
 const Slots = () => {
   const dispatch = useDispatch();
-  const me = useSelector(state => state.owner);
+  // const me = useSelector(state => state.owner);
 
   useEffect(() => {
     (async () => {
@@ -114,7 +118,9 @@ const Slots = () => {
         return;
       }
       const reservationsWithStatus = oldReservations.map(reservation => {
-        const status = reservation.owner === me ? 'myReserved' : 'reserved';
+        // console.log(reservation);
+        // console.error('state.owner:', me);
+        const status = /*reservation.owner === me ? 'myReserved' :*/ 'reserved';
         return {...reservation, status};
       });
       console.log(reservationsWithStatus)
