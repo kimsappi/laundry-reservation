@@ -42,8 +42,8 @@ export const slotsReducer = (state = [], action) => {
     case 'SET_SLOT_STATUS':
       return [...state, action.data];
     case 'CLEAR_SLOT_STATUS':
-      return state.filter(slot =>
-        slot.date.getDate() !== action.data.date.getDate() ||
+      state.filter(slot => 
+        slot.date !== action.data.date ||
         slot.time !== action.data.time ||
         slot.machine !== action.data.machine
       );
