@@ -47,6 +47,8 @@ export const slotsReducer = (state = [], action) => {
         slot.time !== action.data.time ||
         slot.machine !== action.data.machine
       );
+    case 'CLEAR_ALL_SLOTS':
+      return [];
     default:
       return state;
   }

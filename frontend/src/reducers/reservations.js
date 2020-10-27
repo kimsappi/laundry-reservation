@@ -17,6 +17,9 @@ export const setOldReservations = data => {
         date: data.date
       }
     });
+    dispatch({
+      type: 'CLEAR_ALL_SLOTS'
+    });
   };
 };
 
