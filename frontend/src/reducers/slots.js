@@ -4,6 +4,12 @@ const getNewStatus = oldStatus => {
       return 'reserving';
     case 'reserving':
       return null;
+    case 'myReserved':
+      return 'dereserving';
+    case 'dereserving':
+      return null;
+    case 'reserved':
+      return null;
     default:
       return oldStatus;
   }
@@ -12,6 +18,7 @@ const getNewStatus = oldStatus => {
 export const setStatusOnClick = (date, time, machine, owner, oldStatus) => {
   // 'reserving', 'reserved', 'dereserving', 'myReserved'
   const newStatus = getNewStatus(oldStatus);
+  console.warn(date, time, machine, owner ,oldStatus);
 
   return dispatch => {
     const action = newStatus ? {

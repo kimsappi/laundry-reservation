@@ -16,8 +16,8 @@ export const setOldReservations = data => {
         time: data.time,
         date: data.date
       }
-    })
-  }
+    });
+  };
 };
 
 export const reservationsReducer = (state = [], action) => {

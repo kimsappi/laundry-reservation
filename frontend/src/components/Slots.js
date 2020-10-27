@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './Slots.css';
 import * as config from '../config.json';
-import * as timeReducer from '../reducers/time';
 import * as slotsReducer from '../reducers/slots';
 import * as reservationsReducer from '../reducers/reservations';
 import * as reservationService from '../services/reservations';
+import * as utils from '../utils';
 
 const Slot = ({time, currentDay, date, machine}) => {
   const classList = ['slot'];
@@ -15,11 +15,12 @@ const Slot = ({time, currentDay, date, machine}) => {
   const oldReservations = useSelector(state => state.reservations);
   const me = useSelector(state => state.owner);
   const dispatch = useDispatch();
-  const slotStatuses = [...slots, ...oldReservations];
+  const slotStatuses = [...oldReservations, ...slots];
+  let statusText = null;
 
   const status = slotStatuses.filter(data => {
     const dateMatch = typeof data.date === 'string' ?
-      data.date === date.toISOString().split('T')[0] :
+      data.date === utils.datetimeToString(date) :
       data.date.getDate() === date.getDate();
 
     return (
@@ -30,9 +31,9 @@ const Slot = ({time, currentDay, date, machine}) => {
   });
 
   if (status.length) {
-    console.log(status);
-    const initialStatus = status[0].status;
-    const statusText = initialStatus === 'reserved' && status[0].owner === me ?
+    console.log('status:', status);
+    const initialStatus = status[status.length - 1].status;
+    statusText = initialStatus === 'reserved' && status[0].owner === me ?
       'myReserved' : initialStatus;
     classList.push('slot' + statusText.replace(/^./, statusText[0].toUpperCase()));
   }
@@ -41,12 +42,12 @@ const Slot = ({time, currentDay, date, machine}) => {
   if (disabled)
     classList.push('slotDisabled');
   
-  const handleClick = event => {
+  const handleClick = () => {
     if (disabled)
       return;
-    const oldStatus = status.length ?
-      status[0].status : null;
-    dispatch(slotsReducer.setStatusOnClick(date, time, machine, 'placeholderOwner', oldStatus));
+    // const oldStatus = status.length ?
+    //   status[0].status : null;
+    dispatch(slotsReducer.setStatusOnClick(utils.datetimeToString(date), time, machine, me, statusText));
   };
 
   return (
