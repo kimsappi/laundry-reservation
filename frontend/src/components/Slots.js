@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './Slots.css';
@@ -37,7 +37,7 @@ const Slot = ({time, currentDay, date, machine}) => {
     classList.push('slot' + statusText.replace(/^./, statusText[0].toUpperCase()));
   }
 
-  const disabled = currentDay && currentTime.getHours() > time;
+  const disabled = currentDay && currentTime.time > time;
   if (disabled)
     classList.push('slotDisabled');
   
@@ -107,6 +107,9 @@ const SlotDay = ({date, currentDay}) => {
 
 const Slots = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const currentDatetime = useSelector(state => state.time);
+
   // const me = useSelector(state => state.owner);
 
   useEffect(() => {
@@ -116,29 +119,25 @@ const Slots = () => {
         alert('There was an error connecting to the server.'); // TODO make nicer
         return;
       }
-      // const reservationsWithStatus = oldReservations.map(reservation => {
-      //   const status = /*reservation.owner === me ? 'myReserved' :*/ 'reserved';
-      //   return {...reservation, status};
-      // });
       dispatch(reservationsReducer.setOldReservations(data));
+      setLoading(false);
     })();
   }, []);
 
-  const currentTime = new Date();
-  // If no slots can be made for today, start display at tomorrow
-  if (currentTime.getHours() > config.lastSlot) {
-    currentTime.setDate(currentTime.getDate() + 1);
-    currentTime.setHours(0,0,0,0);
-  }
-
-  dispatch(timeReducer.setCurrentTime(currentTime));
   
+  if (loading)
+    return (<div>Loading</div>);
+
+  // Constructing a date object from the string returned by the API, so we
+  // can get construct the required number of days
+  const currentDate = new Date(Date.parse(currentDatetime.date));
+
   // Construct array of dates as set in config.dayCount
   const dates = (() => {
     const ret = [];
     for (let i = 0; i < config.dayCount; ++i) {
       const newDate = new Date();
-      newDate.setDate(currentTime.getDate() + i);
+      newDate.setDate(currentDate.getDate() + i);
       newDate.setHours(0,0,0,0);
       ret.push(newDate);
     };
