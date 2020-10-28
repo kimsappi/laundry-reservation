@@ -28,6 +28,14 @@ def getAllReservationsAsList() -> List:
   reservations = Reservation.getReservations()
   return list(reservations)
 
+def createSuccessOrFailureDict(res: Reservation, actionType: str) -> Dict:
+  return {
+    'type': actionType,
+    'date': res.date,
+    'time': res.time,
+    'machine': str(res.machine)
+  }
+
 class Reservations(View):
   def get(self, request, *args, **kwargs):
     try:
@@ -66,13 +74,30 @@ class Reservations(View):
 
       success = []
       failure = []
+
+      actionType = 'reservation'
       for r in newResObjs:
         try:
           r.save()
-          success.append(r.time)
+          success.append(createSuccessOrFailureDict(r, actionType))
         except Exception as e:
           logging.warning(e)
-          failure.append(r.time)
+          failure.append(createSuccessOrFailureDict(r, actionType))
+
+      actionType = 'cancellation'
+      for r in cancelResObjs:
+        try:
+          Reservation.objects.get(
+            date = r.date,
+            time = r.time,
+            machine = r.machine,
+            cancelCode = cancelCode,
+            owner = owner
+          ).delete()
+          success.append(createSuccessOrFailureDict(r, actionType))
+        except:
+          logging.warning(e)
+          failure.append(createSuccessOrFailureDict(r, actionType))
 
       reservations = getAllReservationsAsList() 
       currentTime = getCurrentDisplayTime()
@@ -80,7 +105,9 @@ class Reservations(View):
       return JsonResponse({
         'reservations': reservations,
         'date': currentTime['date'],
-        'time': currentTime['time']
+        'time': currentTime['time'],
+        'success': success,
+        'failure': failure
       }, status=200)
     except Exception as e:
       logging.error(repr(e))
