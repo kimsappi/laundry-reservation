@@ -129,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = config.timezone
+TIME_ZONE = getattr(config, '_timezone')
 
 USE_I18N = True
 

@@ -1,4 +1,5 @@
 from django.db import models
+from typing import Dict
 
 # Create your models here.
 
@@ -14,6 +15,14 @@ class Reservation(models.Model):
   machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
   cancelCode = models.CharField(max_length=64)
   owner = models.CharField(max_length=64)
+
+  def createSuccessOrFailureDict(self, actionType: str) -> Dict:
+    return {
+      'type': actionType,
+      'date': self.date,
+      'time': self.time,
+      'machine': str(self.machine)
+    }
 
   def __str__(self):
     return f'''\

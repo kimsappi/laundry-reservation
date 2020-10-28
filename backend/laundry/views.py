@@ -15,7 +15,7 @@ config = Config()
 
 def getCurrentDisplayTime() -> Dict:
   now = datetime.now()
-  if now.hour > config.lastSlot:
+  if now.hour > getattr(config, '_lastSlot'):
     now = now + timedelta(days=1)
     now = now.replace(hour=0, minute=0, second=0)
   nowDate = now.date()
@@ -27,14 +27,6 @@ def getCurrentDisplayTime() -> Dict:
 def getAllReservationsAsList() -> List:
   reservations = Reservation.getReservations()
   return list(reservations)
-
-def createSuccessOrFailureDict(res: Reservation, actionType: str) -> Dict:
-  return {
-    'type': actionType,
-    'date': res.date,
-    'time': res.time,
-    'machine': str(res.machine)
-  }
 
 class Reservations(View):
   def get(self, request, *args, **kwargs):
@@ -79,10 +71,10 @@ class Reservations(View):
       for r in newResObjs:
         try:
           r.save()
-          success.append(createSuccessOrFailureDict(r, actionType))
+          success.append(r.createSuccessOrFailureDict(actionType))
         except Exception as e:
           logging.warning(e)
-          failure.append(createSuccessOrFailureDict(r, actionType))
+          failure.append(r.createSuccessOrFailureDict(actionType))
 
       actionType = 'cancellation'
       for r in cancelResObjs:
@@ -94,10 +86,10 @@ class Reservations(View):
             cancelCode = cancelCode,
             owner = owner
           ).delete()
-          success.append(createSuccessOrFailureDict(r, actionType))
+          success.append(r.createSuccessOrFailureDict(actionType))
         except:
           logging.warning(e)
-          failure.append(createSuccessOrFailureDict(r, actionType))
+          failure.append(r.createSuccessOrFailureDict(actionType))
 
       reservations = getAllReservationsAsList() 
       currentTime = getCurrentDisplayTime()
