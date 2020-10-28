@@ -13,19 +13,29 @@ from config import Config
 
 config = Config()
 
-def getCurrentDisplayTime() -> Dict:
+def getCurrentTime() -> Dict:
   now = datetime.now()
   if now.hour > getattr(config, '_lastSlot'):
     now = now + timedelta(days=1)
     now = now.replace(hour=0, minute=0, second=0)
   nowDate = now.date()
   return {
-    'date': nowDate.isoformat(),
+    'date': nowDate,
     'time': now.hour
   }
 
+def getCurrentDisplayTime() -> Dict:
+  now = getCurrentTime()
+  return {
+    'date': now['date'].isoformat(),
+    'time': now['time']
+  }
+
 def getAllReservationsAsList() -> List:
-  reservations = Reservation.getReservations()
+  startDate = getCurrentTime()['date']
+  endDate = startDate + timedelta(days=getattr(config, '_dayCount'))
+
+  reservations = Reservation.getReservations(startDate - timedelta(days=1), endDate)
   return list(reservations)
 
 class Reservations(View):

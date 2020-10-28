@@ -15,6 +15,7 @@ class _Config():
         config = json.loads(f.read())
         self._timezone = config['timezone']
         self._lastSlot = config['lastSlot']
+        self._dayCount = config['dayCount']
 
     except Exception as e:
       print(e)

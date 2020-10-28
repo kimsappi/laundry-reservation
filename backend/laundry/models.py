@@ -24,7 +24,7 @@ class Reservation(models.Model):
       'machine': str(self.machine)
     }
 
-  def __str__(self):
+  def __str__(self, dates):
     return f'''\
   time: {self.time}
   machine: {str(self.machine)}
@@ -32,11 +32,14 @@ class Reservation(models.Model):
   owner: {self.owner}\
 '''
 
-  def getReservations():
+  def getReservations(startDate, endDate):
     reservations = Reservation \
       .objects \
       .values('date', 'time', 'machine__name', 'owner') \
-      .filter(machine__isnull=False)
+      .filter(
+        machine__isnull=False,
+        date__range=[startDate, endDate]
+      )
 
     for reservation in reservations:
       reservation['machine'] = reservation.pop('machine__name')
