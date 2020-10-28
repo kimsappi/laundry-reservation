@@ -8,16 +8,19 @@ import axios from 'axios';
 import './index.css';
 import Slots from './components/Slots';
 import Inputs from './components/Inputs';
+import Notification from './components/Notification';
 import { timeReducer } from './reducers/time';
 import { slotsReducer } from './reducers/slots';
 import { ownerReducer } from './reducers/owner';
+import { notificationReducer } from './reducers/notification';
 import { reservationsReducer } from './reducers/reservations';
 
 const reducer = combineReducers({
   time: timeReducer,
   slots: slotsReducer,
   owner: ownerReducer,
-  reservations: reservationsReducer
+  reservations: reservationsReducer,
+  notification: notificationReducer
 });
 
 const store = createStore(
@@ -39,6 +42,7 @@ const getAndLogRes = async () => {
 ReactDOM.render(
   <Redux.Provider store={store}>
     <React.StrictMode>
+      <Notification />
       <Slots />
       <Inputs />
       <button onClick={getAndLogRes}>Get Reservations</button>
