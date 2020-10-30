@@ -41,7 +41,7 @@ const ApartmentInput = ({ apartment, setApartment, stair }) => {
     const oldApartment = localStorage.getItem('apartment');
     if (oldApartment)
       setApartment(oldApartment);
-  }, []);
+  }, [setApartment]);
 
   const apartmentOptions = apartments.map((apartmentName, index) =>
     <option key={index}>{apartmentName}</option>
@@ -80,7 +80,7 @@ const Inputs = () => {
       setApartment(oldApartment)
       dispatch(ownerReducer.setOwner(oldStair + config.ownerDelimiter + oldApartment));
     }
-  }, []);
+  }, [dispatch]);
 
   const textInputHandler = (event, setFunction) => {
     setFunction(event.target.value);

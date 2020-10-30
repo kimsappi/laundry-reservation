@@ -1,9 +1,18 @@
+.gridContainer {
+  width: 40px;
+  height: 40px;
+}
+
+.xScroll {
+  overflow-x: auto;
+}
+
 .slot {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-color: lightskyblue;
-  margin-bottom: 3px;
   transition: 1s;
+  border-radius: 5px;
 }
 
 .slotReserving {

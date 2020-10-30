@@ -51,7 +51,9 @@ const Slot = ({time, currentDay, date, machine}) => {
   };
 
   return (
-    <div className={classList.join(' ')} onClick={handleClick} />
+    <div className='gridContainer'>
+      <div className={classList.join(' ')} onClick={handleClick} />
+    </div>
   );
 };
 
@@ -74,7 +76,7 @@ const SlotColumn = ({machine, currentDay, date}) => {
 
   return (
     <div className='flex column nowrap'>
-      <div>
+      <div className='gridContainer' title={machine.fullName}>
         {machine.shorthand}
       </div>
       <div className='flex column nowrap'>
@@ -85,6 +87,20 @@ const SlotColumn = ({machine, currentDay, date}) => {
 };
 
 const SlotDay = ({date, currentDay}) => {
+  const firstSlot = config.firstSlot;
+  const lastSlot = config.lastSlot;
+  const timeRange = Array(lastSlot - firstSlot + 2).fill(0).map((_value, index) => {
+    if (!index)
+      return '';
+    else
+      return index + firstSlot;
+  });
+  
+  const timeColumn = timeRange.map(value => 
+    <div className='gridContainer' key={value}>
+      {value}
+    </div>);
+  
   const slotColumns = config.machines.map((machine, index) => 
     <SlotColumn
       machine={machine}
@@ -100,6 +116,9 @@ const SlotDay = ({date, currentDay}) => {
         {date.toLocaleString()}
       </div>
       <div className='flex row nowrap'>
+        <div className='flex column nowrap'>
+          {timeColumn}
+        </div>
         {slotColumns}
       </div>
     </div>
@@ -123,7 +142,7 @@ const Slots = () => {
       dispatch(reservationsReducer.setOldReservations(data));
       setLoading(false);
     })();
-  }, []);
+  }, [dispatch]);
 
   
   if (loading)
@@ -155,7 +174,7 @@ const Slots = () => {
   );
 
   return (
-    <div className='flex row nowrap'>
+    <div className='flex row nowrap xScroll'>
       {slotDays}
     </div>
   );
