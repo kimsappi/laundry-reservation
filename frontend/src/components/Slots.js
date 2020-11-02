@@ -17,6 +17,8 @@ const Slot = ({time, currentDay, date, machine}) => {
   const dispatch = useDispatch();
   const slotStatuses = [...oldReservations, ...slots];
   let statusText = null;
+  let hoverText = 'Free slot';
+  let contentText = '';
 
   const status = slotStatuses.filter(data => {
     const dateMatch = typeof data.date === 'string' ?
@@ -36,11 +38,16 @@ const Slot = ({time, currentDay, date, machine}) => {
     statusText = initialStatus === 'reserved' && status[0].owner === me ?
       'myReserved' : initialStatus;
     classList.push('slot' + statusText.replace(/^./, statusText[0].toUpperCase()));
+    hoverText = status[0].owner;
+    if (config.displayOwnerAtAllTimes)
+      contentText = status[0].owner;
   }
 
   const disabled = currentDay && currentTime.time > time;
-  if (disabled)
+  if (disabled) {
     classList.push('slotDisabled');
+    hoverText = 'Disabled: this time has already passed';
+  }
   
   const handleClick = () => {
     if (disabled)
@@ -52,7 +59,15 @@ const Slot = ({time, currentDay, date, machine}) => {
 
   return (
     <div className='gridContainer'>
-      <div className={classList.join(' ')} onClick={handleClick} />
+      <div
+        className={classList.join(' ')}
+        onClick={handleClick}
+        title={hoverText}
+      >
+        <div>
+          {contentText}
+        </div>
+      </div>
     </div>
   );
 };

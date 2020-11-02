@@ -4,6 +4,7 @@
   "firstSlot": 7,
   "lastSlot": 21,
   "ownerDelimiter": " ",
+  "displayOwnerAtAllTimes": true,
   "apiRootURL": "http://localhost:8000/api/",
   "timezone": "Europe/Helsinki",
   "machines": [

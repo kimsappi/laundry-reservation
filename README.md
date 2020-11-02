@@ -42,6 +42,7 @@ yarn start
 * `firstSlot` <int>: Time of morning when laundry room is first open
 * `lastSlot` <int>: Time of night (24-hour clock) when last slot should start
 * `ownerDelimiter` <str>: Field delimiter for the `owner` string in the database and displays
+* `displayOwnerAtAllTimes` <bool>: Controls whether owner of the slot should be displayed at all times or only upon hover (no mobile support for 'hovering' yet)
 * `timezone` <str>: Time zone. Using tz names is the best option, e.g. 'Europe/Helsinki'
 * `machines` <Array<Object>>: Array consisting of objects with the following keys
   * `fullName` <str>: Full display name of the reservable object in question, no length considerations, e.g. 'Washing machine 1'
