@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import './Notification.css';
 
-const Notification = () => {
+const NotificationsContent = () => {
   const notifications = useSelector(state => state.notification);
   if (!notifications)
     return ('');
@@ -16,5 +16,13 @@ const Notification = () => {
     })
   );
 };
+
+const Notification = () => {
+  return (
+    <div id='notificationsContainer'>
+      <NotificationsContent />
+    </div>
+  );
+}
 
 export default Notification;
