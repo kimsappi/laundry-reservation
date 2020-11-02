@@ -1,16 +1,20 @@
-export const setNotification = data => {
+export const setNotification = (data, success = false) => {
   return dispatch => {
     dispatch({
       type: 'SET_NOTIFICATION',
-      data: data
+      data: data,
+      success: success
     });
   };
 };
 
-export const notificationReducer = (state = null, action) => {
+export const notificationReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_NOTIFICATION':
-      return action.data;
+      return [...state, {
+        data: action.data,
+        success: action.success
+      }];
     default:
       return state;
   }

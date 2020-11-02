@@ -1,0 +1,15 @@
+.notification {
+  padding: 10px;
+  border-radius: 30px;
+  margin: 10px;
+}
+
+.notificationSuccess {
+  background-color: lightgreen;
+  color: darkgreen;
+}
+
+.notificationFailure {
+  background-color: #ffffbb;
+  color: orangered;
+}

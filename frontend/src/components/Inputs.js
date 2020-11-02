@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as config from '../config.json';
+import * as notificationReducer from '../reducers/notification';
 import * as ownerReducer from '../reducers/owner';
 import { setOldReservations } from '../reducers/reservations';
 import * as reservationsService from '../services/reservations';
@@ -91,7 +92,7 @@ const Inputs = () => {
     const newReservations = slotStatuses.filter(slot => slot.status === 'reserving');
     const cancelledReservations = slotStatuses.filter(slot => slot.status === 'dereserving');
     if (!(newReservations.length + cancelledReservations.length)) {
-      alert('No slots selected.'); // TODO move to Bootstrap alert or something
+      dispatch(notificationReducer.setNotification('No slots selected.', false)); // TODO move to Bootstrap alert or something
       return;
     }
     try {
