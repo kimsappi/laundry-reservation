@@ -7,7 +7,7 @@ import sys
 from django.http import JsonResponse
 from django.views.generic import View
 
-from .models import Reservation, Machine
+from .models import Reservation, Machine, Owner
 sys.path.append('..')
 from config import Config
 
@@ -56,7 +56,7 @@ class Reservations(View):
     try:
       newResData = json.loads(request.body)
       cancelCode = newResData['cancelCode']
-      owner = newResData['owner']
+      owner = Owner.objects.get(name=newResData['owner'])
 
       newResObjs = [Reservation(
         date = r['date'][:10],

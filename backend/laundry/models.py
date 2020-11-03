@@ -41,14 +41,16 @@ class Reservation(models.Model):
   def getReservations(startDate, endDate):
     reservations = Reservation \
       .objects \
-      .values('date', 'time', 'machine__name', 'owner') \
+      .values('date', 'time', 'machine__name', 'owner__name') \
       .filter(
         machine__isnull=False,
+        owner__isnull=False,
         date__range=[startDate, endDate]
       )
 
     for reservation in reservations:
       reservation['machine'] = reservation.pop('machine__name')
+      reservation['owner'] = reservation.pop('owner__name')
     return reservations
 
   class Meta:
