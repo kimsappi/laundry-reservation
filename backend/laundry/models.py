@@ -4,7 +4,13 @@ from typing import Dict
 # Create your models here.
 
 class Machine(models.Model):
-  name = models.CharField(max_length=32)
+  name = models.CharField(max_length=32, unique=True)
+
+  def __str__(self):
+    return f'{self.name}'
+
+class Owner(models.Model):
+  name = models.CharField(max_length=64, unique=True)
 
   def __str__(self):
     return f'{self.name}'
@@ -14,7 +20,7 @@ class Reservation(models.Model):
   time = models.SmallIntegerField()
   machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
   cancelCode = models.CharField(max_length=64)
-  owner = models.CharField(max_length=64)
+  owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
 
   def createSuccessOrFailureDict(self, actionType: str) -> Dict:
     return {
@@ -24,7 +30,7 @@ class Reservation(models.Model):
       'machine': str(self.machine)
     }
 
-  def __str__(self, dates):
+  def __str__(self):
     return f'''\
   time: {self.time}
   machine: {str(self.machine)}
