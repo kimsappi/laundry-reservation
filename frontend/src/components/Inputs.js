@@ -98,6 +98,7 @@ const Inputs = () => {
     try {
       const data = await reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me);
       dispatch(setOldReservations(data));
+      dispatch(notificationReducer.createReservationNotifications(data));
     } catch(err) {
       console.error(err);
     }
