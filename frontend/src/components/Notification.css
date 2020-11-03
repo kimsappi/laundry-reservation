@@ -28,3 +28,8 @@
   color: orangered;
   border-color: orangered;
 }
+
+.notificationInstructions {
+  background-color: lightgoldenrodyellow;
+  color: #330;
+}

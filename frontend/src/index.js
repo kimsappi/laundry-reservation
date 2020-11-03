@@ -9,6 +9,7 @@ import './index.css';
 import Slots from './components/Slots';
 import Inputs from './components/Inputs';
 import Notification from './components/Notification';
+import Instructions from './components/Instructions';
 import { timeReducer } from './reducers/time';
 import { slotsReducer } from './reducers/slots';
 import { ownerReducer } from './reducers/owner';
@@ -46,6 +47,7 @@ ReactDOM.render(
       <Slots />
       <Inputs />
       <button onClick={getAndLogRes}>Get Reservations</button>
+      <Instructions />
     </React.StrictMode>
   </Redux.Provider>,
   document.getElementById('root')

@@ -9,7 +9,7 @@ import * as reservationService from '../services/reservations';
 import * as utils from '../utils';
 
 const Slot = ({time, currentDay, date, machine}) => {
-  const classList = ['slot'];
+  const classList = ['gridItem', 'slot'];
   const currentTime = useSelector(state => state.time);
   const slots = useSelector(state => state.slots);
   const oldReservations = useSelector(state => state.reservations);
@@ -47,6 +47,7 @@ const Slot = ({time, currentDay, date, machine}) => {
   if (disabled) {
     classList.push('slotDisabled');
     hoverText = 'Disabled: this time has already passed';
+    contentText = '';
   }
   
   const handleClick = () => {
@@ -92,7 +93,9 @@ const SlotColumn = ({machine, currentDay, date}) => {
   return (
     <div className='flex column nowrap'>
       <div className='gridContainer' title={machine.fullName}>
-        {machine.shorthand}
+        <div className='gridItem'>
+          {machine.shorthand}
+        </div>
       </div>
       <div className='flex column nowrap'>
         {slots}
@@ -113,7 +116,9 @@ const SlotDay = ({date, currentDay}) => {
   
   const timeColumn = timeRange.map(value => 
     <div className='gridContainer' key={value}>
-      {value}
+      <div className='gridItem'>
+        {value}
+      </div>
     </div>);
   
   const slotColumns = config.machines.map((machine, index) => 
@@ -127,8 +132,8 @@ const SlotDay = ({date, currentDay}) => {
 
   return (
     <div className='flex column nowrap'>
-      <div>
-        {date.toLocaleString()}
+      <div className='textAlignCenter'>
+        {date.toLocaleDateString()}
       </div>
       <div className='flex row nowrap'>
         <div className='flex column nowrap'>

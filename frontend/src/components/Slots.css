@@ -1,17 +1,23 @@
 .gridContainer {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .xScroll {
   overflow-x: auto;
 }
 
-.slot {
+.gridItem {
   display: table-cell;
   vertical-align: middle;
-  width: 30px;
-  height: 30px;
+  text-align: center;
+  width: 35px;
+  height: 35px;
+}
+
+.slot {
   background-color: lightskyblue;
   transition: 1s;
   border-radius: 5px;
@@ -20,7 +26,6 @@
 .slot > * {
   color: white;
   font-size: 0.8em;
-  text-align: center;
 }
 
 .slotReserving {
@@ -28,11 +33,11 @@
 }
 
 .slotDereserving {
-  background-color: #444;
+  background-color: #aaf;
 }
 
 .slotReserved {
-  background-color: darkred;
+  background-color: purple;
 }
 
 .slotMyReserved {
