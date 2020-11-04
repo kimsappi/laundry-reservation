@@ -68,6 +68,7 @@ const Inputs = () => {
   const [stair, setStair] = useState(nullValue);
   const [apartment, setApartment] = useState(nullValue);
   const [cancelCode, setCancelCode] = useState('');
+  const [passCode, setPassCode] = useState('');
 
   const slotStatuses = useSelector(state => state.slots);
   const me = useSelector(state => state.owner);
@@ -89,14 +90,18 @@ const Inputs = () => {
 
   const submitHandler = async event => {
     event.preventDefault();
+    if (!passCode.length || !cancelCode.length) {
+      dispatch(notificationReducer.setNotification('You must set a cancellation code and passcode.', false));
+      return;
+    }
     const newReservations = slotStatuses.filter(slot => slot.status === 'reserving');
     const cancelledReservations = slotStatuses.filter(slot => slot.status === 'dereserving');
     if (!(newReservations.length + cancelledReservations.length)) {
-      dispatch(notificationReducer.setNotification('No slots selected.', false)); // TODO move to Bootstrap alert or something
+      dispatch(notificationReducer.setNotification('No slots selected.', false));
       return;
     }
     try {
-      const data = await reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me);
+      const data = await reservationsService.submitReservations(newReservations, cancelledReservations, cancelCode, me, passCode);
       dispatch(setOldReservations(data));
       dispatch(notificationReducer.createReservationNotifications(data));
     } catch(err) {
@@ -106,6 +111,7 @@ const Inputs = () => {
 
   return (
     <form onSubmit={submitHandler}>
+      <label>Apartment</label>
       <StairInput
         stair={stair} setStair={setStair}
         setApartment={setApartment}
@@ -114,10 +120,13 @@ const Inputs = () => {
         apartment={apartment} setApartment={setApartment}
         stair={stair}
       />
-      <div>
-        <label htmlFor='cancelCode'>Cancellation code: (=> type=password?)</label>
-        <input type='text' name='cancelCode' value={cancelCode} onChange={event => textInputHandler(event, setCancelCode)} />
-      </div>
+
+      <label htmlFor='cancelCode'>Cancellation code</label>
+      <input type='text' name='cancelCode' value={cancelCode} onChange={event => textInputHandler(event, setCancelCode)} />
+
+      <label htmlFor='passCode'>Passcode (demo version ={'>'} any code will do)</label>
+      <input type='text' name='passCode' value={passCode} onChange={event => textInputHandler(event, setPassCode)} />
+      
       <input type='submit' name='Submit' value='Submit' />
     </form>
   );

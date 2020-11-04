@@ -29,3 +29,22 @@ code {
   margin-right: 5px;
   margin-bottom: 3px;
 }
+
+form > label {
+  display: block;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+form > input[type=submit] {
+  display: block;
+  margin-top: 10px;
+  background-color: lightskyblue;
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 7px;
+  border: 1px solid #333;
+  border-radius: 10px;
+  box-shadow: 4px 4px 5px #555;
+}

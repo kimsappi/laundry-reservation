@@ -132,7 +132,7 @@ const SlotDay = ({date, currentDay}) => {
 
   return (
     <div className='flex column nowrap slotDay'>
-      <div className='textAlignCenter bold'>
+      <div className='textAlignCenter bold slotDayTopDate'>
         {date.toLocaleDateString()}
       </div>
       <div className='flex row nowrap'>
@@ -140,6 +140,9 @@ const SlotDay = ({date, currentDay}) => {
           {timeColumn}
         </div>
         {slotColumns}
+      </div>
+      <div className='textAlignCenter bold'>
+        {date.toLocaleDateString()}
       </div>
     </div>
   );
