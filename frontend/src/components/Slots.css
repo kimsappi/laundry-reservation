@@ -1,12 +1,19 @@
+.slotDay {
+  border: 1px solid #aaa;
+  border-radius: 20px;
+  margin: 5px;
+  background-color: #fffff5;
+}
+
+.slotDay:nth-child(even) {
+  background-color: #fff5ff;
+}
+
 .gridContainer {
   width: 42px;
   height: 42px;
   display: table-cell;
   vertical-align: middle;
-}
-
-.xScroll {
-  overflow-x: auto;
 }
 
 .gridItem {

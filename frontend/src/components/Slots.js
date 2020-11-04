@@ -111,7 +111,7 @@ const SlotDay = ({date, currentDay}) => {
     if (!index)
       return '';
     else
-      return index + firstSlot;
+      return index - 1 + firstSlot;
   });
   
   const timeColumn = timeRange.map(value => 
@@ -131,8 +131,8 @@ const SlotDay = ({date, currentDay}) => {
   );
 
   return (
-    <div className='flex column nowrap'>
-      <div className='textAlignCenter'>
+    <div className='flex column nowrap slotDay'>
+      <div className='textAlignCenter bold'>
         {date.toLocaleDateString()}
       </div>
       <div className='flex row nowrap'>
@@ -193,11 +193,12 @@ const Slots = () => {
     />
   );
 
-  return (
+  return (<>
+    <h2>Laundry reservation</h2>
     <div className='flex row nowrap xScroll'>
       {slotDays}
     </div>
-  );
+  </>);
 };
 
 export default Slots;

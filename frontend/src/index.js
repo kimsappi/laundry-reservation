@@ -45,8 +45,8 @@ ReactDOM.render(
     <React.StrictMode>
       <Notification />
       <Slots />
+      <hr />
       <Inputs />
-      <button onClick={getAndLogRes}>Get Reservations</button>
       <Instructions />
     </React.StrictMode>
   </Redux.Provider>,
