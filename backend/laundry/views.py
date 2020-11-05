@@ -10,6 +10,7 @@ from django.views.generic import View
 from .models import Reservation, Machine, Owner
 sys.path.append('..')
 from config import Config
+from verifyPasscode import verifyPasscode
 
 config = Config()
 
@@ -56,7 +57,11 @@ class Reservations(View):
     try:
       newResData = json.loads(request.body)
       cancelCode = newResData['cancelCode']
+      passCode = newResData['passCode']
       owner = Owner.objects.get(name=newResData['owner'])
+
+      if not verifyPasscode(passCode):
+        raise ValueError('Invalid passcode')
 
       newResObjs = [Reservation(
         date = r['date'][:10],

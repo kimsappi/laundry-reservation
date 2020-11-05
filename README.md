@@ -11,7 +11,7 @@ Configurable common laundry room reservation app (WIP).
   * React
 
 # Instructions
-First edit `config.json` and `.env.edit` (see **Configuration**), then:
+First edit `config.json`, `verifyPasscode.py.edit` and `.env.edit` (see **Configuration**), then:
 ```shell
 ./exportconfig.sh
 
@@ -35,6 +35,9 @@ yarn start
 * `SECRET_KEY`: secret key used by Django
 * `DEBUG`: should be `off`, can be `on` for development
 * `DATABASE_URL`: Postgres URL containing all credentials required to access database
+
+## verifyPasscode.py.edit
+Implement a Python function that verifies whether submitted passcode is valid.
 
 ## config.json
 * `dayCount` <int>: Number of days to be displayed at once

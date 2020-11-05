@@ -105,6 +105,7 @@ const Inputs = () => {
       dispatch(setOldReservations(data));
       dispatch(notificationReducer.createReservationNotifications(data));
     } catch(err) {
+      dispatch(notificationReducer.setNotification('Something went wrong.'))
       console.error(err);
     }
   };
